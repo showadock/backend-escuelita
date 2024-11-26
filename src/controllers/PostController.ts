@@ -1,5 +1,5 @@
 import { Router } from "express";
-import db from "../config/db";
+import db from "../config/db"; // Este import deberia eliminarse
 import { createPost } from "../services/PostService";
 
 const PostController = Router();
@@ -9,8 +9,14 @@ PostController.get("/test", (req, res) => {
   console.log("Mostrando TEST");
 });
 
+function logger(text) {
+  console.log(text);
+}
+
 // Crear una publicación
 PostController.post("/", async (req, res) => {
+  console.log("Este log deberia eliminarse");
+
   const post = req.body;
 
   // Validaciones
@@ -22,6 +28,7 @@ PostController.post("/", async (req, res) => {
 
   const createdPost = await createPost(post);
 
+  logger("Success ");
   return res
     .status(createdPost ? 201 : 500)
     .json(
